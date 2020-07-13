@@ -1,0 +1,7 @@
+ Schema::create('piecesidentite', function (Blueprint $table) {
+            $table->increments('idpiece');
+            $table->string('libelpiece');
+        });
+
+
+        
