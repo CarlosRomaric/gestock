@@ -18,6 +18,8 @@ Laravel is a web application framework with expressive, elegant syntax. We belie
 - Database agnostic [schema migrations](https://laravel.com/docs/migrations).
 - [Robust background job processing](https://laravel.com/docs/queues).
 - [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+- [Laravel Shopping Cart](https://github.com/Crinsane/LaravelShoppingcart/)
+- [Laravel DOMPDF](https://github.com/barryvdh/laravel-dompdf)
 
 Laravel is accessible, yet powerful, providing tools needed for large, robust applications.
 
@@ -51,6 +53,7 @@ We would like to extend our thanks to the following sponsors for helping fund on
 - [iMi digital](https://www.imi-digital.de/)
 - [Earthlink](https://www.earthlink.ro/)
 - [Steadfast Collective](https://steadfastcollective.com/)
+
 
 ## Contributing
 
