@@ -1,5 +1,21 @@
 <div class="row">
+
     <div class="col-md-6">
+
+
+        <div class="form-group row">
+            <label for="name" class="col-sm-3 col-form-label">Matricule</label>
+            <div class="col-sm-9">
+              <input type="text" name="matricule"  id="matricule" class="form-control" value="{{ (empty($user)) ? old('name') : $user->name }}" placeholder="Entrez le matricule de l'utilisateur">
+              <br>
+              @if (!empty($errors->has('matriculee')))
+              <div class="alert alert-danger">
+                  {{ $errors->first('matricule') }}
+              </div>
+              @endif
+           </div>
+        </div>
+
         <div class="form-group row">
           <label for="nom" class="col-sm-3 col-form-label">Nom</label>
           <div class="col-sm-9">
@@ -25,9 +41,10 @@
                 @endif
             </div>
         </div>
-        <input type="hidden" name="matricule" value="{{ 'MAT'.time() }}">
+        {{-- <input type="hidden" name="matricule" value="{{ 'MAT'.time() }}"> --}}
 
-       
+
+
     </div>
     <div class="col-md-6">
         <div class="form-group row">

@@ -13,7 +13,7 @@ class Sortie extends Model
     protected $primaryKey = 'id';
     //Timestamps
     public $timestamps = true;
-    
+
     protected $guarded = [];
 
     protected $dates = ['date'];
@@ -33,6 +33,8 @@ class Sortie extends Model
         return $this->belongsTo('App\Technicien');
     }
 
+
+
     public static function getRequest(Request $request)
     {
         return $data = $request->all();
@@ -48,7 +50,7 @@ class Sortie extends Model
         return $data = Sortie::orderBy('created_at','desc')->where('produit_id','=',$id)->get();
     }
 
-    
-    
-    
+
+
+
 }

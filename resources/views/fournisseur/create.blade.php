@@ -10,7 +10,7 @@
                 <div class="card col-md-12">
                   <div class="card-body">
                    <a href="{{ route('fournisseur.index') }}" class="btn btn-primary mb-5"> <i class="fa fa-arrow-circle-left"></i> Retour</a>
-                    <h4 class="card-title">Ajouter un Fournisseur de produit</h4>
+                    <h4 class="card-title text-uppercase">Ajouter un Fournisseur de produit</h4>
                      @if (session('message'))
                         <div class="alert alert-success alert-dismissible fade show">
                             <button type="button" class="close" aria-label="Close" @click="close" id="close">
@@ -29,17 +29,17 @@
                     @endif
                     <div class="row">
                       <div class="col-md-12">
-                       
+
                         <form action="{{ route('fournisseur.store') }}" method="POST" class="form-sample" >
                            @csrf
                            @include('fournisseur/form')
                            <button class="btn btn-primary" type="submit">  Enregistrer </button>
                         </form>
-                       
+
                         </div>
                     </div>
                   </div>
                 </div>
               </div>
-    
+
 @endsection

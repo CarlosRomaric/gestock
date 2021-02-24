@@ -25,7 +25,7 @@
                             <table class="table"  id="example2">
                                 <thead class="bg-secondary">
                                     <tr>
-                                        <th>Produit</th>
+                                        <th>Article</th>
                                         <th>Prix</th>
                                         <th width="10%">Quantité</th>
                                         <th>Sous Total </th>
@@ -49,23 +49,23 @@
                                                 </div>
 
                                             </th>
-                                            <td width="10%"> {{ getPrice($product->model->price) }} </td>
+                                            <td width="10%"> {{ getPrice($product->model->priceSeller) }} </td>
                                             <!--<td> <input type="text" size="2" id="" class="form-control" value="{{ $product->qty }}"> </td>-->
-                                            <td> 
+                                            <td>
                                                 <select name="qty"   id="qty" data-id="{{ $product->rowId }}" class=" form-control custom-select">
                                                      @for($i = 1; $i <= $product->model->getQteStockById($product->id); $i++ )
                                                         <option value="{{ $i }}" {{ $i == $product->qty ? 'selected' : '' }}>{{ $i }}</option>
                                                      @endfor
-                                                    
-                                                </select>    
+
+                                                </select>
                                             </td>
-                                            <td> {{ getPrice($product->model->price * $product->qty) }} </td>
+                                            <td> {{ getPrice($product->model->priceSeller * $product->qty) }} </td>
                                             <td class="text-center">
                                                 <form action="{{ route('cart.destroy', $product->rowId) }}" method="POST">
                                                     @csrf
                                                     @method('DELETE')
                                                     <button class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></button>
-                                                </form>   
+                                                </form>
                                             </td>
                                         </tr>
                                     @endforeach
@@ -80,17 +80,17 @@
                             </table>
                              <div class="col-md-12 mt-4">
                                 <div class="shadow bg-dark text-white py-4 text-center circle text-uppercase form-control">
-                                    <Strong><h3>Choisissez le technicien</h3></Strong>
+                                    <Strong><h3></h3></Strong>
                                 </div>
                                 <div class="mt-3 py-2">
                                     <form action="{{ route('sorties.store') }}" method="POST">
                                          @csrf
                                          @include('sorties/form')
-                                         <button class="btn btn-lg btn-block btn-dark mt-4 circle arrow " type="submit">
-                                            Envoi pour Validation de la sortie de Produit
+                                         <button class=" col-md-4 offset-md-4 btn btn-lg btn-block btn-dark mt-4 circle arrow " type="submit">
+                                            Envoyez pour Validation
                                          </button>
                                     </form>
-                                   
+
                                 </div>
                              </div>
 
@@ -100,15 +100,15 @@
                                      <img src="/assets/images/images.png" width="50%" alt="oops le panier est vide">
                                 </div>
                                 <div class="col-md-5 text-center">
-                                    <a  href="{{ route('sortie.sortieProduit') }}" class="btn btn-primary btn-lg">Retour sur la page des produits</a>
+                                    <a  href="{{ route('sortie.sortieProduit') }}" class="btn btn-primary btn-lg">Retour sur la page des articles</a>
                                 </div>
                             </div>
-                               
+
                             @endif
                          </div>
                     </div>
                   </div>
                 </div>
               </div>
-    
+
 @endsection

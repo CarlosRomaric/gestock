@@ -13,7 +13,7 @@ class BonSortie extends Model
     protected $primaryKey = 'id';
     //Timestamps
     public $timestamps = true;
-    
+
     protected $guarded = [];
 
     protected $dates = ['date'];
@@ -34,6 +34,11 @@ class BonSortie extends Model
     }
 
     public function user()
+    {
+        return $this->belongsTo('App\User');
+    }
+
+    public function superviseur()
     {
         return $this->belongsTo('App\User');
     }

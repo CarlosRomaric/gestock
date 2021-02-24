@@ -15,10 +15,10 @@ use App\Sortie;
 class ProduitsController extends Controller
 {
     protected $rules = [
-        'designation'=>'required',
+        /*'designation'=>'required',*/
         'ref'=>'required',
-        'subtitle'=>'required',
-        'description'=>'required',
+        /*'subtitle'=>'required',
+        'description'=>'required',*/
         'price'=>'required',
         'qteStock'=>'required',
         'qteMin'=>'required',
@@ -49,7 +49,7 @@ class ProduitsController extends Controller
     public function index()
     {
         $produits = Produit::listeProduits();
-       
+
         $data = [
             'produits'=>$produits,
         ];
@@ -66,7 +66,14 @@ class ProduitsController extends Controller
         $produit = '';
         $selected ='';
         $selected2='';
-        $familles = Famille::listeFamille()->pluck('libelle','id');
+       // $familles = Famille::listeFamille()->pluck('libelle','id');
+        $fams = Famille::listeFamille();
+        $fam = [];
+        foreach ($fams as $fa) {
+           $fam[$fa->id]= $fa->libelle.' '.$fa->marque.' '.$fa->modele;
+        }
+        $familles = $fam;
+
         $fours = Fournisseur::listeFournisseurs();
         $four =  [];
         foreach($fours as $f){
@@ -101,7 +108,6 @@ class ProduitsController extends Controller
             return back()->with('danger','cet produit existe déjà dans la base de donnée');
         }
         Produit::create($data);
-
         $data2 = [
             'produit_id'=>Produit::lastRecordproduitId()->id,
             'user_id'=>Auth::user()->id,
@@ -120,7 +126,7 @@ class ProduitsController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show($id)
-    {   
+    {
         $produit = Produit::find($id);
         $entrees = Entree::listeEntreeByproduitId($id);
         $sorties = Sortie::listeSortieByProduitId($id);
@@ -147,12 +153,12 @@ class ProduitsController extends Controller
         //dd($familles);
         $fours = Fournisseur::listeFournisseurs();
         $four =  [];
-        
+
         foreach($fours as $f){
             $four = [
                 $f->id => $f->nom.' '.$f->prenoms,
             ];
-           
+
         }
         //dd($four);
         $fournisseurs = Fournisseur::listeFournisseurs()->pluck('nom','id');
@@ -165,18 +171,18 @@ class ProduitsController extends Controller
         $selected2 ='';
          foreach ($familles as $key => $value) {
             if ($key == $produit->famille_id) {
-                $selected= $key; 
+                $selected= $key;
             }
         }
 
          foreach ($fournisseurs as $key2 => $value) {
             if ($key2 == $produit->fournisseur_id) {
-                $selected2 = $key2; 
+                $selected2 = $key2;
             }
         }
 
         //dd($selected2);
-       
+
         $idproduit = $produit->id;
         $data = [
             'produit'=>$produit,
@@ -222,7 +228,7 @@ class ProduitsController extends Controller
     {
         $produit = Produit::find($id);
         Produit::removeImage($produit->image, $this->upload);
-        $produit->delete();    
+        $produit->delete();
         return  redirect('produits')->with('message','cet produit a bien été supprimer');
     }
 }

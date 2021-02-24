@@ -13,7 +13,7 @@ class Famille extends Model
     protected $primaryKey = 'id';
     //Timestamps
     public $timestamps = true;
-    
+
     protected $guarded = [];
 
     public function produit(){
@@ -39,5 +39,6 @@ class Famille extends Model
     {
         return $query = Famille::orderBy('created_at', 'desc')->where('libelle','=',$libelle)->first();
     }
-    
+
+
 }

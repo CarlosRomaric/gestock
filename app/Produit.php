@@ -14,12 +14,17 @@ class Produit extends Model
     protected $primaryKey = 'id';
     //Timestamps
     public $timestamps = true;
-    
+
     protected $guarded = [];
 
     public function sortie()
     {
         return $this->belongsToMany('App\Sortie');
+    }
+
+    public function retour()
+    {
+        return $this->belongsToMany('App\Retour');
     }
 
     public function famille(){
@@ -49,7 +54,7 @@ class Produit extends Model
     {
          return $query = Produit::all()->count();
     }
-    
+
     public static function getRequest(Request $request, $upload)
     {
         if ($request->hasFile('image')) {
@@ -80,7 +85,7 @@ class Produit extends Model
             if(file_exists($file_path)) unlink($file_path);
         }
     }
-    
+
     public static function lastRecordProduitId()
     {
         return $query = DB::table('produits')->latest('id')->first();
@@ -90,7 +95,7 @@ class Produit extends Model
     {
         return $query =  Produit::all()->sum('qteStock');
     }
-    
+
     public static function getQteStockById($id){
         return $query = Produit::find($id)->qteStock;
     }
@@ -110,4 +115,6 @@ class Produit extends Model
         $price = floatval($price);
         return number_format($price,0,' ',' ').' FCFA';
     }
+
+
 }

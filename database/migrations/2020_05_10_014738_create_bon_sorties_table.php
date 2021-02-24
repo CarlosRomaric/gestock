@@ -16,12 +16,16 @@ class CreateBonSortiesTable extends Migration
         Schema::create('bon_sorties', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedBigInteger('user_id')->index();
+            $table->unsignedBigInteger('superviseur_id')->index();
             $table->unsignedBigInteger('technicien_id')->index();
+            $table->string('numberOT')->nullable();
+            $table->string('remarque')->nullable();
             $table->integer('status');
             $table->dateTime('date');
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('superviseur_id')->references('id')->on('users');
             $table->foreign('technicien_id')->references('id')->on('techniciens');
         });
     }

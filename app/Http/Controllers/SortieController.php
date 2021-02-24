@@ -5,18 +5,26 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\NotificationStatusValidationBon;
 use App\Notifications\SeuilProduitAtteint;
 use App\Produit;
 use App\Technicien;
 use App\Sortie;
 use App\BonSortie;
 
+
 class SortieController extends Controller
 {
     protected  $rules = [
      'user_id'=>'required',
      'technicien_id'=>'required',
+     'superviseur_id'=>'required',
      'date'=>'required',
+    ];
+
+    protected $rulesValidateForm = [
+        'remarque'=>'required',
     ];
 
     protected $messages = [
@@ -51,6 +59,7 @@ class SortieController extends Controller
         //dd(nbreProduitsInferieurStock());
         //dd(getProduits());
         $sorties = BonSortie::listeBonSorties();
+
         //dd($sorties);
         $data = [
             'sorties'=>$sorties
@@ -78,15 +87,18 @@ class SortieController extends Controller
     {
         $this->validate($request, $this->rules, $this->messages);
         $data = $request->all();
+        //dd($data);
         //dd(Cart::content());
         $data = [];
         $data2 = [
             'user_id'=>$request->user_id,
             'technicien_id'=>$request->technicien_id,
+            'superviseur_id'=>$request->superviseur_id,
+            'numberOT'=>$request->numberOT,
             'status'=>0,
             'date'=>date('Y-m-d H:i:s')
         ];
-       
+
         BonSortie::create($data2);
         $bon_sorties_id = BonSortie::lastRecordBonSortieId();
         foreach (Cart::content() as $key => $product) {
@@ -99,8 +111,10 @@ class SortieController extends Controller
           //dd($data);
          Sortie::create($data);
         }
+        $bonSortie = BonSortie::find($bon_sorties_id);
+        Mail::to($bonSortie->superviseur->email)->send(new NotificationStatusValidationBon($bonSortie));
         return redirect('sorties')->with('message','cet bon de sortie a bien été pris en compte et doit être valider par le responsable avant la sortie des produits du stock');
-        
+
     }
 
     /**
@@ -140,32 +154,52 @@ class SortieController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $this->validate($request, $this->rulesValidateForm);
+        //dd($request->all());
+
         $bonSortie = BonSortie::find($id);
 
         $sorties = Sortie::listeSorties($id);
         //$produit=Produit::listeProduitById($sortie->produit_id);
         //dd($sorties);
-        foreach($sorties as $sortie){
-            $produit = Produit::find($sortie->produit_id);
-            
-            $data = [
-                'qteStock'=>$produit->qteStock - $sortie->qteStock,
+        if($request->status == 1)
+        {
+            foreach($sorties as $sortie){
+                $produit = Produit::find($sortie->produit_id);
+
+                $data = [
+                    'qteStock'=>$produit->qteStock - $sortie->qteStock,
+                ];
+                $produit->update($data);
+
+            // $produits=Produit::listeProduitById($sortie->produit_id);
+            //Notification
+            //    if($produit->qteStock == $produit->qteMin ){
+            //         dd($produit->user->notify(new SeuilProduitAtteint($produit)));
+            //    }elseif($produit->qteStock <= $produit->qteMin){
+            //         dd($produit->user->notify(new SeuilProduitAtteint($produit)));
+            //    }
+
+            }
+
+            $data2 = [
+                'status'=>$request->status,
+                'remarque'=>$request->remarque
             ];
-            $produit->update($data);
-           // $produits=Produit::listeProduitById($sortie->produit_id);
-           //Notification
-        //    if($produit->qteStock == $produit->qteMin ){
-        //         dd($produit->user->notify(new SeuilProduitAtteint($produit)));
-        //    }elseif($produit->qteStock <= $produit->qteMin){
-        //         dd($produit->user->notify(new SeuilProduitAtteint($produit)));
-        //    }
-          
+
+            $bonSortie->update($data2);
+            Mail::to($bonSortie->user->email)->send(new NotificationStatusValidationBon($bonSortie));
+
+        }else{
+            $data2 = [
+                'status'=>$request->status,
+                'remarque'=>$request->remarque
+            ];
+
+            $bonSortie->update($data2);
+            Mail::to($bonSortie->user->email)->send(new NotificationStatusValidationBon($bonSortie));
         }
-        $data2 = [
-            'status'=>1
-        ];
-        $bonSortie->update($data2);
-        
+
 
         return redirect('sorties')->with('message','le le bon de sortie a bien été validé');
         //dd($produits);

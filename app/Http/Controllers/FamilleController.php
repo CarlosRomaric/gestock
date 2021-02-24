@@ -11,6 +11,8 @@ class FamilleController extends Controller
 
     protected $rules = [
         'libelle'=>'required',
+        'marque'=>'required',
+        'modele'=>'required',
     ];
 
     protected $messages = [
@@ -52,7 +54,7 @@ class FamilleController extends Controller
         return view('famille.create')->with($data);
     }
 
-    
+
 
     /**
      * Store a newly created resource in storage.
@@ -94,7 +96,7 @@ class FamilleController extends Controller
         $famille = Famille::find($id);
         $data = [
             'famille'=>$famille
-        ];  
+        ];
         return view('famille/edit')->with($data);
     }
 

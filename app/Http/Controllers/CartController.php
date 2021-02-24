@@ -7,6 +7,7 @@ use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Support\Facades\Session;
 use App\Produit;
 use App\Technicien;
+use App\User;
 
 class CartController extends Controller
 {
@@ -29,10 +30,12 @@ class CartController extends Controller
             //dd($techniciens);
             $cartproduct = Cart::content();
             //dd($cartproduct);
+            $superviseurs = User::listeUsersRole(2);
 
          $data = [
              'techniciens'=>$techniciens,
-             'cartproduct'=>$cartproduct
+             'cartproduct'=>$cartproduct,
+             'superviseurs'=>$superviseurs
          ];
          return view('cart.index')->with($data);
     }
@@ -44,7 +47,7 @@ class CartController extends Controller
      */
     public function create()
     {
-       
+
     }
 
     /**
@@ -58,9 +61,9 @@ class CartController extends Controller
        $produit = Produit::find($request->produit_id);
     //    if(empty($request->qteStock))
     //    {
-    //        return back()->with('danger','Entrer la quantité du produit choisi');    
+    //        return back()->with('danger','Entrer la quantité du produit choisi');
     //    }elseif($request->qteStock > $produit->qteStock){
-            
+
     //         return back()->with('danger','la quantité du produit choisi est supérieur a la quantité en stock');
     //    }
 
@@ -71,14 +74,14 @@ class CartController extends Controller
        if($duplicata->isNotEmpty()){
             return back()->with('danger','le produit a été  déjà ajouté au panier consulter votre panier pour modifier la quantité du produit');
        }
-       Cart::add($produit->id, $produit->designation, 1, $produit->price)
+       Cart::add($produit->id, $produit->designation, 1, $produit->priceSeller)
              ->associate('App\Produit');
         return back()->with('message','le produit a bien été ajouté au panier');
     }
 
     public function videpanier(){
         Cart::destroy();
-        return back()->with('message','le panier a bien été vidé');  
+        return back()->with('message','le panier a bien été vidé');
     }
 
     /**

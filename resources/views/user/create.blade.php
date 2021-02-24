@@ -12,18 +12,24 @@
                     <h4 class="card-title">Ajout  d'un utilisateur</h4>
                     <div class="row">
                       <div class="col-md-12">
-                       
-                        <form action="{{ route('user.store') }}" method="POST" class="form-sample" >
-                         @csrf
-                           @include('user/form')
-                           <button class="btn btn-primary" type="submit"> Enregistrer </button>
-                        </form>
-                           
-                       
+                        <a href="{{ route('user.index') }}" class="btn btn-primary mb-3">Liste des Utilisateurs</a>
+                        @if (session('danger'))
+                            <div class="alert alert-danger alert-dismissible fade show">
+                                <button type="button" class="close" aria-label="Close" @click="close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            {{ session('danger') }}
+                            </div>
+                         @endif
+                          <form action="{{ route('user.store') }}" method="POST" class="form-sample" >
+                            @csrf
+                            @include('user/form')
+                            <button class="btn btn-primary" type="submit"> Enregistrer </button>
+                          </form>
                         </div>
                     </div>
                   </div>
                 </div>
               </div>
-    
+
 @endsection

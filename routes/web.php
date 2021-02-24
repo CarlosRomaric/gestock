@@ -24,6 +24,7 @@ Route::get('barcode', 'MainController@barcode');
 
 
 Auth::routes();
+//Auth::routes(['register' => false]);
 Route::resource('user','UserController');
 
 Route::resource('produits','ProduitsController');
@@ -46,8 +47,16 @@ Route::get('entree/{id}','EntreeController@listeEntreByproduit')->name('entree.l
 Route::resource('sorties','SortieController');
 Route::get('sortieProduit','SortieController@sortieProduit')->name('sortie.sortieProduit');
 
+/**Retour En Stock */
+Route::resource('retourStocks','RetourStockController');
 /*PDF GENERATOR*/
 Route::get('pdf/{id}','PDFMAkerController@gen')->name('pdf.invoice');
+Route::get('listingTechnicien','PDFMAkerController@listingTechnicien')->name('pdf.listingTechnicien');
+Route::get('listingUsers','PDFMAkerController@listingUsers')->name('pdf.listingUsers');
+Route::get('listingFamilles','PDFMAkerController@listingFamilles')->name('pdf.listingFamilles');
+Route::get('listingProduits','PDFMAkerController@listingProduits')->name('pdf.listingProduits');
+Route::get('listingFournisseurs','PDFMakerController@listingFournisseur')->name('pdf.listingFournisseurs');
+Route::get('listingRetourStocks/{id}','PDFMakerController@listingRetourStocks')->name('pdf.listingRetourStocks');
 
 
 Route::get('/home', 'HomeController@index')->name('home');

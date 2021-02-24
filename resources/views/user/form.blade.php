@@ -1,5 +1,9 @@
-<input type="hidden"name="matricule" value="MAT{{ time() }}">
-<div class="form-group row">
+{{-- <input type="hidden"name="matricule" value="MAT{{ time() }}"> --}}
+
+
+
+
+{{-- <div class="form-group row">
           <label for="name" class="col-sm-3 col-form-label">Nom</label>
           <div class="col-sm-9">
             <input type="text" name="name"  id="libelle" class="form-control" value="{{ (empty($user)) ? old('name') : $user->name }}" placeholder="Entrez le nom de l'utilisateur">
@@ -13,7 +17,7 @@
 </div>
 
 <div class="form-group row">
-          <label for="email" class="col-sm-3 col-form-label">Email</label>   
+          <label for="email" class="col-sm-3 col-form-label">Email</label>
           <div class="col-sm-9">
             <input type="text" name="email"  id="libelle" class="form-control" value="{{ (empty($user)) ? old('email') : $user->email }}" placeholder="Entrez l'email">
             <br>
@@ -26,7 +30,7 @@
 </div>
 
 <div class="form-group row">
-          <label for="Contacts" class="col-sm-3 col-form-label">Contacts</label>   
+          <label for="Contacts" class="col-sm-3 col-form-label">Contacts</label>
           <div class="col-sm-9">
             <input type="text" maxlength="8" onkeypress="chiffres(event)" name="contacts"  id="libelle" class="form-control" value="{{ (empty($user)) ? old('contact') : $user->contacts }}" placeholder="Entrez le contact">
             <br>
@@ -36,10 +40,31 @@
             </div>
             @endif
          </div>
-</div>
+</div> --}}
 
 <div class="form-group row">
-          <label for="password" class="col-sm-3 col-form-label">Mot de passe</label>   
+    <label for="technicien_id" class="col-sm-3 col-form-label">Membres du staff</label>
+    <div class="col-sm-9">
+
+        <select name="technicien_id"  class="js-example-basic-single w-100 " id="">
+            <option value="">Choisissez le Membre du staff</option>
+            @foreach($techniciens as $technicien)
+                <option value="{{ $technicien->id }}" class="text-uppercase" >{{ $technicien->nom }} {{ $technicien->prenoms }}</option>
+            @endforeach
+        </select>
+        <br>
+        @if (!empty($errors->has('technicien_id')))
+        <div class="alert alert-danger mt-4">
+            {{ $errors->first('technicien_id') }}
+        </div>
+        @endif
+    </div>
+</div>
+
+
+
+<div class="form-group row">
+          <label for="password" class="col-sm-3 col-form-label">Mot de passe</label>
           <div class="col-sm-9">
             <input type="password" name="password"  id="password" class="form-control" value="" placeholder="Entrez le mot de passe">
             <br>
@@ -52,7 +77,7 @@
 </div>
 
 <div class="form-group row">
-          <label for="password" class="col-sm-3 col-form-label">Confirmation du mot de passe</label>   
+          <label for="password" class="col-sm-3 col-form-label">Confirmation du mot de passe</label>
           <div class="col-sm-9">
             <input type="password" name="password_confirmation"  id="password" class="form-control" value="" placeholder="confirmer le mot de passe">
             <br>
@@ -78,9 +103,9 @@
            @if((Auth::user()->role === 0))
             <option value="0">Admin</option>
            @endif
-            <option value="1">Responsable</option>
-            <option value="2">Magasinier 1</option>
-            <option value="3">Magasinier 2</option>
+            {{-- <option value="1">Responsable</option> --}}
+            <option value="2">Superviseur</option>
+            <option value="3">utilisateur</option>
         </select>
     </div>
 </div>

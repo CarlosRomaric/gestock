@@ -24,23 +24,25 @@
                           {{ session('danger') }}
                         </div>
                     @endif
-                    
-                    <h3 class="card-title text-center mb-5">Liste de produits</h3>
+
+                    <h3 class="card-title text-center text-uppercase mb-5">Liste de produits</h3>
                      <a href="{{ route('cart.index') }}" class="btn btn-primary mb-3">Panier <span class="badge badge-pill badge-light text-primary">{{ Cart::count() }}</span></a>
                     <div class="row">
                       <div class="col-12 table-responsive">
                           <table class="table table-bordered table-hover table-sm center" id="example2">
                             <thead >
-                                   
+
                                 <tr class=" bg-secondary">
                                     <th>N°</th>
                                     <th class="">Image</th>
                                     <th class="">Reférence</th>
                                     <th class="">Famille</th>
+                                    <th class="">Marque</th>
+                                    <th class="">Modele</th>
                                     <th class="">Fournisseur</th>
                                     <th class="">Designation</th>
-                                    <th class="">Prix unitaire</th>
-                                    
+                                    <th class="">Prix de Vente</th>
+
                                     <!--<th class="">Quantité</th>-->
                                     <th class="">Actions</th>
                                 </tr>
@@ -52,12 +54,14 @@
                                         <tr class="text-center">
                                             <td>{{ $i }}</td>
                                             <td class=""><img src="/images_produits/{{ $produit->image }}" alt=""></td>
-                                            <td class="">{{ $produit->ref }} </td>  
+                                            <td class="">{{ $produit->ref }} </td>
                                             <td class="">{{ $produit->famille->libelle }}</td>
-                                            <td class="">{{ $produit->fournisseur->nom }}  {{ $produit->fournisseur->prenoms }} </td>                                         
-                                            <td class="">{{ $produit->designation }} </td>                                            
-                                            <td class="">{{ getPrice($produit->price) }} </td>
-                                            
+                                            <td class="">{{ $produit->famille->marque }}</td>
+                                            <td class="">{{ $produit->famille->modele }}</td>
+                                            <td class="">{{ $produit->fournisseur->nom }}  {{ $produit->fournisseur->prenoms }} </td>
+                                            <td class="">{{ $produit->designation }} </td>
+                                            <td class="">{{ getPrice($produit->priceSeller) }} </td>
+
                                             <form action="{{ route('cart.store') }}" method="POST">
 
                                                 @csrf
@@ -66,8 +70,8 @@
                                                     <input type="text" class="form-control small" name="qteStock" size="3" onkeypress=chiffres(event)>
                                                 </td>-->
                                                 <td class="">
-                                                    <input type="hidden" name="produit_id" value="{{ $produit->id }}">  
-                                                    @if($produit->qteStock <=0 )       
+                                                    <input type="hidden" name="produit_id" value="{{ $produit->id }}">
+                                                    @if($produit->qteStock <=0 )
                                                     <button class="btn btn-primary btn-sm" type="submit" disabled="disabled"> Choisir </button>
                                                     @else
                                                      <button class="btn btn-primary btn-sm" type="submit"> Choisir </button>
@@ -76,15 +80,15 @@
                                             </form>
                                         </tr>
                                     @endforeach
-                               
+
                             </tbody>
                           </table>
-                          
+
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-    
+
 
 @endsection

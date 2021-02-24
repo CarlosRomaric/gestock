@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Gloudemans\Shoppingcart\Facades\Cart;
 use App\User;
+use App\Technicien;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
@@ -25,8 +26,8 @@ class UserController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            // 'name' => ['required', 'string', 'max:255'],
+            // 'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:6', 'confirmed'],
             'role' => ['required']
         ]);
@@ -38,8 +39,8 @@ class UserController extends Controller
     ];
 
     protected $rules = [
-        'name' => ['required', 'string', 'max:255'],
-        'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+        // 'name' => ['required', 'string', 'max:255'],
+        // 'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
         'password' => ['required', 'string', 'min:6', 'confirmed'],
         'role' => ['required']
     ];
@@ -51,10 +52,11 @@ class UserController extends Controller
      */
     public function index()
     {
-       
-       
+
+        $techniciens = Technicien::listeTechniciens();
         $data = [
             'users'=>User::orderBy('created_at','desc')->get(),
+            'techniciens'=>$techniciens
         ];
         return view('user/index')->with($data);
     }
@@ -67,8 +69,9 @@ class UserController extends Controller
      */
     public function create()
     {
+        $techniciens = Technicien::listeTechniciens();
         $data = [
-
+            'techniciens'=>$techniciens
         ];
         return view('user/create')->with($data);
     }
@@ -81,14 +84,23 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-            $this->validator($request->all())->validate();
+            //$this->validator($request->all())->validate();
+            $this->validate($request, $this->rules, $this->messages);
+            //dd(User::getVerifyUserExist($request));
+            if(User::getVerifyUserExist($request)){
+               return back()->with('danger','Cet compte utilisateur a déja été créer');
+            }
+            $technicien = Technicien::find($request->technicien_id);
+
+            //dd($technicien);
             $user = new User;
-            $user->name = $request->name;
-            $user->email = $request->email;
-            $user->contacts = $request->contacts;
-            $user->matricule = $request->matricule;
+            $user->name = $technicien->nom.' '.$technicien->prenoms;
+            $user->email = $technicien->email;
+            $user->contacts = $technicien->contacts;
+            $user->matricule = $technicien->matricule;
             $user->password = Hash::make($request->password);
             $user->role = $request->role;
+            //dd($user);
             $user->save();
             return redirect('/user')->with('success','vous avez créer un nouvel utilisateur');
     }

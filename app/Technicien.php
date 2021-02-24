@@ -13,12 +13,17 @@ class Technicien extends Model
     protected $primaryKey = 'id';
     //Timestamps
     public $timestamps = true;
-    
+
     protected $guarded = [];
 
     public function bonSortie()
     {
         return $this->belongsToMany('App\BonSortie');
+    }
+
+    public function retourStock()
+    {
+        return $this->belongsToMany('App\RetourStock');
     }
 
     public static function getRequest(Request $request)
@@ -30,7 +35,7 @@ class Technicien extends Model
     {
         return $query = Technicien::orderBy('created_at','desc')->get();
     }
-    
+
 
     public static function nbreTechniciens()
     {

@@ -44,8 +44,8 @@
                                             <td>{{ $user->email }} </td>
                                             <td>{{ $user->contacts }} </td>
                                             <td>
-                                            
-                                            <?php 
+
+                                            <?php
                                                 switch ($user->role) {
                                                 case 0:
                                                     echo "Admin";
@@ -54,10 +54,10 @@
                                                     echo "Responsable";
                                                     break;
                                                  case 2:
-                                                    echo "Magazinier 1";
+                                                    echo "Superviseur";
                                                     break;
                                                  case 3:
-                                                    echo "Magazinier 2";
+                                                    echo "Utilisateur";
                                                     break;
                                                }?>
                                             </td>
@@ -71,16 +71,17 @@
                                             @endif
                                         </tr>
                                     @endforeach
-                               
+
                             </tbody>
                           </table>
+                          <a href="{{ route('pdf.listingUsers') }}" class="btn btn-success my-3 "><i class="icon-printer"></i>Imprimer la liste des Utilisateurs</a>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-    
-             
+
+
 
             @foreach ($users as $user)
             <div class="modal fade" id="mb-delete_{{ $user->id }}" tabindex="-1" role="dialog" aria-labelledby="deleteLabel">
@@ -89,7 +90,7 @@
                             <div class="modal-header">
                                 <h4 class="modal-title login-title" id="myModalLabel">Supprimer {{ $user->libelle }}</h4>
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                
+
                             </div>
                             <div class="modal-body">
                                 <p>La suppression est irréverssible!!!.
@@ -99,14 +100,14 @@
                                 <button class="btn btn-default" data-dismiss="modal" type="button">
                                     <i class="fa fa-reply"></i> Annuler
                                 </button>
-                               
+
                                 <form action ="{{  route('user.destroy', $user->id) }}" method="POST">
                                     @csrf
                                     <button type="submit" class="btn btn-success">
                                         <i class="fa fa-save"></i> Valider
-                                    </button> 
+                                    </button>
                                     <input type="hidden" name="_method" value="DELETE">
-                                 
+
                                  </form>
                             </div>
                         </div>

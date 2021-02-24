@@ -62,7 +62,7 @@
                     <div class="d-flex align-items-center">
                       <i class=" icon-calendar icon-lg"></i>
                       <div class="ml-4">
-                       
+
                         <h4 class="font-weight-light"><?= ucfirst(utf8_encode(strftime('%A', strtotime(date('d-m-Y'))))); ?></h4>
                         <h3 class="font-weight-light mb-3"><?= ucfirst(utf8_encode(strftime(' %d %B', strtotime(date('d-m-Y'))))); ?></h3>
                         <p class="mb-0 font-weight-light"><?= ucfirst(utf8_encode(strftime(' %Y ', strtotime(date('d-m-Y'))))); ?></p>
@@ -74,18 +74,18 @@
             </div>
 
             <div class="card my-4">
-              <div class="card-body">
+              <div class="card-body text-center">
+                 <img src="" alt="logo" class="img-responsive mb-4 img-thumbnail">
                 <h4 class="card-title">Bienvenue dans votre Espace d'administration   {{ Auth::user()->name }}   </h4>
-                
                 <div class="row">
                   <div class="col-12 table-responsive">
-                   
+
                   </div>
                 </div>
               </div>
             </div>
-         
+
         </div>
-      
+
 
   @endsection

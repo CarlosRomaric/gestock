@@ -13,7 +13,7 @@
          </div>
         </div>
 
-        
+
 
         <div class="form-group row">
           <label for="email" class="col-sm-3 col-form-label">Email</label>
@@ -45,7 +45,7 @@
         </div>
 
         <div class="form-group row">
-          <label for="domicile" class="col-sm-3 col-form-label">Domicile</label>
+          <label for="domicile" class="col-sm-3 col-form-label">Localisation</label>
           <div class="col-sm-9">
             <input type="text" name="domicile"  id="domicile" class="form-control" value="{{ (empty($fournisseur)) ? old('domicile') : $fournisseur->domicile }}" placeholder="Entrez le domicile du fournisseur">
             <br>
@@ -68,7 +68,7 @@
             </div>
             @endif
          </div>
-         <input type="hidden" value="0" name="status">   
+         <input type="hidden" value="0" name="status">
          <input type="hidden" name="mouvement_id" value="{{ Auth::user()->mouvement_id }}">
         </div>-->
 

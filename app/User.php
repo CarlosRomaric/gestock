@@ -4,6 +4,8 @@ namespace App;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Http\Request;
+use App\Technicien;
 
 class User extends Authenticatable
 {
@@ -34,6 +36,11 @@ class User extends Authenticatable
         return $this->belongsTo('App\Sortie');
     }
 
+    public function retourStock()
+    {
+        return $this->belongsToMany('App\RetourStock');
+    }
+
     public function bonSortie()
     {
         return $this->belongsToMany('App\BonSortie');
@@ -57,10 +64,15 @@ class User extends Authenticatable
     public static function listeUsers()
     {
        return $query =  User::orderBy('created_at','desc')->get();
-       
+
     }
 
     public static function listeUsersTechnicien($status)
+    {
+        return $query =   User::orderBy('created_at','desc')->where('role','=',$status)->get();
+    }
+
+    public static function listeUsersRole($status)
     {
         return $query =   User::orderBy('created_at','desc')->where('role','=',$status)->get();
     }
@@ -83,5 +95,13 @@ class User extends Authenticatable
     public static function getRequest(Request $request)
     {
         return $data = $request->all();
+    }
+
+    public static function getVerifyUserExist(Request $request)
+    {
+        //dd($request->all());
+        $technicien = Technicien::find($request->technicien_id);
+
+        return  $query = User::orderBy('created_at','desc')->where('email','=',$technicien->email)->first();
     }
 }

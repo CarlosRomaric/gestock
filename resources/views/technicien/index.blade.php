@@ -15,8 +15,10 @@
                           {{ session('message') }}
                         </div>
                     @endif
-                    <h3 class="card-title text-center mb-5">Liste des Techniciens</h3>
-                     <a href="{{ route('technicien.create') }}" class="btn btn-primary mb-3">Ajouter un technicien</a>
+                    <h3 class="card-title text-center mb-5">Liste des Membres du staff</h3>
+                    @if(Auth::user()->role==0)
+                     <a href="{{ route('technicien.create') }}" class="btn btn-primary mb-3">Ajouter un membre du staff</a>
+                    @endif
                     <div class="row">
                       <div class="col-12 table-responsive">
                           <table class="table table-bordered table-hover table-sm center" id="example2">
@@ -43,7 +45,7 @@
                                             <td class="text-center">{{ $technicien->contacts }} </td>
                                             <td class="text-center">{{ $technicien->email }} </td>
                                             <td class="text-center">
-                                                
+
                                                 <a class="btn btn-primary btn-sm" href="/technicien/{{ $technicien->id }}/edit" title="modifié les info du membre">
                                                     <i class="icon-note"></i>
                                                 </a>
@@ -51,16 +53,17 @@
                                             </td>
                                         </tr>
                                     @endforeach
-                               
+
                             </tbody>
                           </table>
                       </div>
                     </div>
+                    <a href="{{ route('pdf.listingTechnicien') }}" class="btn btn-success my-3"><i class="icon-printer"></i>Imprimer la liste des membres du staff</a>
                   </div>
                 </div>
               </div>
-    
-             
+
+
 
             @foreach ($techniciens as $technicien)
             <div class="modal fade" id="mb-delete_{{ $technicien->id }}" tabindex="-1" role="dialog" aria-labelledby="deleteLabel">
@@ -69,7 +72,7 @@
                             <div class="modal-header">
                                 <h4 class="modal-title login-title" id="myModalLabel">Supprimer {{ $technicien->nom }} {{ $technicien->prenoms }}</h4>
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                
+
                             </div>
                             <div class="modal-body">
                                 <p>La suppression est irréverssible!!!.
@@ -79,18 +82,18 @@
                                 <button class="btn btn-default" data-dismiss="modal" type="button">
                                     <i class="fa fa-reply"></i> Annuler
                                 </button>
-                               
+
                                 <form action ="{{  route('technicien.destroy', $technicien->id) }}" method="POST">
                                     @csrf
                                     <button type="submit" class="btn btn-success">
                                         <i class="fa fa-save"></i> Valider
-                                    </button> 
+                                    </button>
                                     <input type="hidden" name="_method" value="DELETE">
-                                 
+
                                  </form>
                             </div>
                         </div>
                     </div>
-                </div>
+            </div>
             @endforeach
 @endsection

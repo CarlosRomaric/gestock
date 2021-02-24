@@ -15,7 +15,7 @@ class CreateSortiesTable extends Migration
     {
         Schema::create('sorties', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedBigInteger('bon_sorties_id')->index(); 
+            $table->unsignedBigInteger('bon_sorties_id')->index();
             $table->unsignedBigInteger('produit_id')->index();
             $table->dateTime('date');
             $table->integer('qteStock');
